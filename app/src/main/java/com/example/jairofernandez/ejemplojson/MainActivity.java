@@ -36,6 +36,8 @@ public class MainActivity extends ActionBarActivity {
         final TextView tvResultado = (TextView)findViewById(R.id.tvResultado);
         TextView tvWebService = (TextView)findViewById(R.id.tVWebService);
 
+        ObtDatos();
+
         Button btnGuardar = (Button)findViewById(R.id.btnGuardar);
         Button btnWebService = (Button)findViewById(R.id.btnWebService);
         btnGuardar.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +64,7 @@ public class MainActivity extends ActionBarActivity {
         btnWebService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ObtDatos();
             }
         });
 

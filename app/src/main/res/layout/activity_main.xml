@@ -8,11 +8,23 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:weightSum="1">
 
         <TextView android:text="EJEMPLO DE JSON" android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/titulo" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Llamar web service"
+            android:id="@+id/btnWebService" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/lvResultados" />
 
         <EditText
             android:layout_width="match_parent"
@@ -46,12 +58,6 @@
             android:id="@+id/tvResultado"
             android:layout_gravity="center_horizontal" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Llamar web service"
-            android:id="@+id/btnWebService" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,10 +66,6 @@
             android:id="@+id/tVWebService"
             android:layout_gravity="center_horizontal" />
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/lvResultados" />
     </LinearLayout>
 
 </RelativeLayout>
