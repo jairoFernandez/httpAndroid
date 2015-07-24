@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,47 +20,24 @@ import com.loopj.android.http.*;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
 
     ListView listado;
+    ArrayAdapter<Lamina> adapter;
+    List<Lamina> registros;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        listado = (ListView)findViewById(R.id.lvResultados);
-        final EditText etNombre = (EditText)findViewById(R.id.etNombre);
-        final EditText etEdad = (EditText)findViewById(R.id.etEdad);
-        final EditText etHobbies = (EditText)findViewById(R.id.etHobbies);
-        final TextView tvResultado = (TextView)findViewById(R.id.tvResultado);
-        TextView tvWebService = (TextView)findViewById(R.id.tVWebService);
 
-        ObtDatos();
 
-        Button btnGuardar = (Button)findViewById(R.id.btnGuardar);
+        CargarLista();
         Button btnWebService = (Button)findViewById(R.id.btnWebService);
-        btnGuardar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String nombre = etNombre.getText().toString();
-                Integer edad = Integer.parseInt(etEdad.getText().toString());
-                String hobbies = etHobbies.getText().toString();
-                JSONObject json = new JSONObject();
-                String jsonString = "";
-                try{
-                    json.put("nombre",nombre);
-                    json.put("hobbies",hobbies);
-                    json.put("edad",edad);
-                }catch (JSONException e){}
-
-                jsonString = json.toString();
-                tvResultado.setText(jsonString);
-
-
-            }
-        });
 
         btnWebService.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +68,8 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 if (statusCode == 200) {
-                    CargaLista(obtDatosJSON(new String(responseBody)));
+                   // CargaLista(obtDatosJSON(new String(responseBody)));
+                    obtDatosJSON(new String(responseBody));
                 }
             }
 
@@ -101,8 +80,15 @@ public class MainActivity extends ActionBarActivity {
         });
     }
 
-    public void CargaLista(ArrayList<String> datos){
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,datos);
+    public void CargarLista(){
+        registros = Lamina.listAll(Lamina.class);
+        listado = (ListView)findViewById(R.id.lvResultados);
+        if(registros == null){
+            ObtDatos();
+            registros = Lamina.listAll(Lamina.class);
+        }
+        adapter = new ArrayAdapter<Lamina>(this.getApplicationContext(),R.layout.abc_list_menu_item_layout,R.id.lvResultados,registros);
+        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,datos);
         listado.setAdapter(adapter);
     }
 
@@ -111,13 +97,27 @@ public class MainActivity extends ActionBarActivity {
         try{
             JSONArray resulArray = new JSONArray(response);
             String texto;
-
+            String tipoLamina;
+            Integer ancho;
+            Integer alto;
+            Integer valor;
+            Integer valorCm;
             for (int i=0; i<resulArray.length();i++)
             {
-                texto = resulArray.getJSONObject(i).getString("tipoLamina")+" "+
-                        resulArray.getJSONObject(i).getString("alto")+" "+
-                        resulArray.getJSONObject(i).getString("ancho");
+                texto = resulArray.getJSONObject(i).getString("tipoLamina")+" ("+
+                        resulArray.getJSONObject(i).getString("alto")+"X"+
+                        resulArray.getJSONObject(i).getString("ancho")+")";
                 listado.add(texto);
+
+                tipoLamina = resulArray.getJSONObject(i).getString("tipoLamina");
+                ancho = Integer.getInteger(resulArray.getJSONObject(i).getString("ancho"));
+                alto = Integer.getInteger(resulArray.getJSONObject(i).getString("alto"));
+                valor = Integer.getInteger(resulArray.getJSONObject(i).getString("valor"));
+                valorCm = Integer.getInteger(resulArray.getJSONObject(i).getString("valorCm"));
+
+                Lamina lamina = new Lamina(tipoLamina,ancho,alto,valor,valorCm);
+
+                lamina.save();
             }
 
         }catch (Exception e){

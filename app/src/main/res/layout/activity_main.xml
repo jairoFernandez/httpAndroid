@@ -11,60 +11,16 @@
         android:layout_height="match_parent"
         android:weightSum="1">
 
-        <TextView android:text="EJEMPLO DE JSON" android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/titulo" />
-
         <Button
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Llamar web service"
+            android:text="Cargar"
             android:id="@+id/btnWebService" />
 
         <ListView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="95dp"
             android:id="@+id/lvResultados" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/etNombre" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="10"
-            android:id="@+id/etEdad" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/etHobbies"
-            android:layout_gravity="center_horizontal" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Guardar"
-            android:id="@+id/btnGuardar" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Resultado"
-            android:id="@+id/tvResultado"
-            android:layout_gravity="center_horizontal" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="WebService"
-            android:id="@+id/tVWebService"
-            android:layout_gravity="center_horizontal" />
 
     </LinearLayout>
 
