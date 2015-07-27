@@ -43,6 +43,7 @@ public class MainActivity extends ActionBarActivity {
     Float valorCm = Float.valueOf(0);
     ArrayList<Operacion> miOperacion;
     ListView lvOperacion;
+    ArrayAdapter<Operacion> adapterOperacion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +58,11 @@ public class MainActivity extends ActionBarActivity {
         btnCalcular = (Button)findViewById(R.id.btnCalcular);
         miOperacion = new ArrayList<Operacion>();
         lvOperacion = (ListView)findViewById(R.id.lvResultados);
+        adapterOperacion = new ArrayAdapter<Operacion>(this,android.R.layout.simple_list_item_1,miOperacion);
+        lvOperacion.setAdapter(adapterOperacion);
 
         long numberRegistro = Lamina.count(Lamina.class, null, null);
-        Log.d("Cantidad",numberRegistro+"");
+        Log.d("Cantidad", numberRegistro + "");
         if (numberRegistro == 0) {
             ObtDatos();
         }else{
@@ -73,15 +76,29 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-        lvOperacion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvOperacion.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Operacion borrado = (Operacion) lvOperacion.getSelectedItem();
-                Float valorItem = borrado.getValor();
+                Integer posicion = lvOperacion.getSelectedItemPosition();
+
+                miOperacion.
+
+
+                Float valorItem = Float.valueOf(0);
+//                valorItem =  borrado.getValor();
+                Toast.makeText(getApplicationContext(),"Presionaste "+borrado.,Toast.LENGTH_LONG).show();
                 total = total - valorItem;
                 DecimalFormat df = new DecimalFormat();
                 df.setMaximumFractionDigits(2);
                 tvResultado.setText(df.format(total).toString());
+                return false;
+            }
+        });
+        lvOperacion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
             }
         });
     }
@@ -98,6 +115,7 @@ public class MainActivity extends ActionBarActivity {
         etAlto.setText("");
         tvResultado.setText("0");
         Toast.makeText(this,"Ha borrado las operaciones realizadas",Toast.LENGTH_LONG).show();
+        lvOperacion.setAdapter(null);
     }
 
     private void calcular(){
@@ -126,8 +144,8 @@ public class MainActivity extends ActionBarActivity {
 
             tvResultado.setText(df.format(total).toString());
             miOperacion.add(new Operacion(descricpion, totalParcial));
-            ArrayAdapter<Operacion> adapterOperacion = new ArrayAdapter<Operacion>(this,android.R.layout.simple_list_item_1,miOperacion);
-            lvOperacion.setAdapter(adapterOperacion);
+
+            //lvOperacion.set
 
         }
 
