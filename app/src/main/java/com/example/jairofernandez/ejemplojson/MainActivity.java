@@ -1,8 +1,13 @@
 package com.example.jairofernandez.ejemplojson;
 
+import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
@@ -122,6 +127,7 @@ public class MainActivity extends ActionBarActivity {
         etAlto.setText("");
         tvResultado.setText("0");
         Toast.makeText(this,"Ha borrado las operaciones realizadas",Toast.LENGTH_LONG).show();
+        notificacion("Borradas las operaciones.  Tucompualdia");
         //lvOperacion.setAdapter(null);
         adapterOperacion.clear();
         adapterOperacion.notifyDataSetChanged();
@@ -186,6 +192,7 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                notificacion("Error, revisa tu conexión.  Tucompualdia");
                 Toast.makeText(getApplicationContext(), "No se ha podido actualizar la base de datos", Toast.LENGTH_LONG).show();
             }
         });
@@ -218,6 +225,7 @@ public class MainActivity extends ActionBarActivity {
                 Lamina lamina = new Lamina(tipoLamina, ancho, alto, valor, valorCm);
                 lamina.save();
                 Log.d("results", texto);
+                notificacion("La calculadora ha actualizado su base de datos.  Tucompualdia");
             }
 
             cargarSpiner();
@@ -304,7 +312,31 @@ public class MainActivity extends ActionBarActivity {
 
     public void callPhoneNumber(String phone) {
         Intent callIntent = new Intent(Intent.ACTION_CALL);
-        callIntent.setData(Uri.parse("tel:"+phone));
+        callIntent.setData(Uri.parse("tel:" + phone));
         startActivity(callIntent);
     }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public void notificacion(String mensaje){
+
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+// build notification
+// the addAction re-use the same intent to keep the example short
+        Notification n  = new Notification.Builder(this)
+                .setContentTitle("Multikloset")
+                .setContentText(mensaje)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentIntent(pIntent)
+                .setAutoCancel(true)
+                .build();
+
+
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        notificationManager.notify(0, n);
+    }
+
 }

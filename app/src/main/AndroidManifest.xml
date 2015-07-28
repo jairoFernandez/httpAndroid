@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.jairofernandez.ejemplojson">
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
 
     <meta-data android:name="DATABASE" android:value="multikloset.db" />
     <meta-data android:name="VERSION" android:value="2" />
