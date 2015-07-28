@@ -296,6 +296,9 @@ public class MainActivity extends ActionBarActivity {
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setType("plain/text");
         emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{Address});
+        emailIntent .putExtra(android.content.Intent.EXTRA_SUBJECT, "Petición de soporte vía Android");
+
+        //emailIntent .putExtra(android.content.Intent.EXTRA_TEXT, BodyText);
         startActivity(Intent.createChooser(emailIntent, "Enviar correo"));
     }
 
