@@ -80,18 +80,21 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Operacion borrado = (Operacion) lvOperacion.getSelectedItem();
-                Integer posicion = lvOperacion.getSelectedItemPosition();
+                Integer posicion = i;//lvOperacion.getSelectedItemPosition();
+                Integer conteo = miOperacion.size();
 
-                miOperacion.
-
+                Operacion operacionCal = miOperacion.get(posicion);
 
                 Float valorItem = Float.valueOf(0);
-//                valorItem =  borrado.getValor();
-                Toast.makeText(getApplicationContext(),"Presionaste "+borrado.,Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Has borrado "+operacionCal.getDescripcion()+".",Toast.LENGTH_LONG).show();
+                valorItem = operacionCal.getValor();
                 total = total - valorItem;
                 DecimalFormat df = new DecimalFormat();
                 df.setMaximumFractionDigits(2);
                 tvResultado.setText(df.format(total).toString());
+                miOperacion.remove(posicion);
+                adapterOperacion.remove(miOperacion.get(posicion));
+                adapterOperacion.notifyDataSetChanged();
                 return false;
             }
         });
@@ -115,7 +118,9 @@ public class MainActivity extends ActionBarActivity {
         etAlto.setText("");
         tvResultado.setText("0");
         Toast.makeText(this,"Ha borrado las operaciones realizadas",Toast.LENGTH_LONG).show();
-        lvOperacion.setAdapter(null);
+        //lvOperacion.setAdapter(null);
+        adapterOperacion.clear();
+        adapterOperacion.notifyDataSetChanged();
     }
 
     private void calcular(){
@@ -145,7 +150,7 @@ public class MainActivity extends ActionBarActivity {
             tvResultado.setText(df.format(total).toString());
             miOperacion.add(new Operacion(descricpion, totalParcial));
 
-            //lvOperacion.set
+            lvOperacion.setAdapter(adapterOperacion);
 
         }
 
