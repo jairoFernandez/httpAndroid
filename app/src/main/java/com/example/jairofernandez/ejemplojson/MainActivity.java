@@ -1,7 +1,11 @@
 package com.example.jairofernandez.ejemplojson;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -175,14 +179,14 @@ public class MainActivity extends ActionBarActivity {
                 if (statusCode == 200) {
 
                     obtDatosJSON(new String(responseBody));
-                    Toast.makeText(getApplicationContext(),"Actualizando base de datos",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Actualizando base de datos", Toast.LENGTH_LONG).show();
 
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Toast.makeText(getApplicationContext(),"No se ha podido actualizar la base de datos",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "No se ha podido actualizar la base de datos", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -240,8 +244,64 @@ public class MainActivity extends ActionBarActivity {
             return true;
         }else if(id == R.id.action_borrar){
             Borrar();
+        }else if(id == R.id.action_acerca){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Desarrollado por tucompualdia, para Multikloset. Todos los derechos reservados")
+                    .setTitle("Acerca de...")
+                    .setCancelable(false)
+                    .setNeutralButton("Aceptar",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+            AlertDialog alert = builder.create();
+            alert.show();
+        }else if(id == R.id.action_pagina){
+            String link = "http://multikloset.tucompualdia.net/kloset/";
+            showWebPage(link);
+        }else if(id == R.id.action_plataforma){
+            String link = "http://multikloset.tucompualdia.net/kloset/admin";
+            showWebPage(link);
+        }else if(id == R.id.action_sugerencias){
+            sendEmail("soporte@tucompualdia.net");
+        }else if(id == R.id.action_soporte){
+            callPhoneNumber("+573176569802");
+        }
+        else if(id == R.id.action_social){
+            share("http://facebook.com/tucompualdia","Síguenos en Facebook");
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showWebPage(String URL) {
+        Intent intent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse(URL));
+
+        startActivity(intent);
+    }
+
+    public void share(String linkShare, String titleShare){
+        Intent intent = new Intent(Intent.ACTION_SEND);
+
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_SUBJECT, titleShare);
+        intent.putExtra(Intent.EXTRA_TEXT, linkShare);
+
+        startActivity(Intent.createChooser(intent, "Compartir"));
+    }
+
+    public void sendEmail(String Address){
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setType("plain/text");
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{Address});
+        startActivity(Intent.createChooser(emailIntent, "Enviar correo"));
+    }
+
+    public void callPhoneNumber(String phone) {
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse("tel:"+phone));
+        startActivity(callIntent);
     }
 }

@@ -5,4 +5,17 @@
         android:orderInCategory="100" app:showAsAction="always" />
     <item android:id="@+id/action_borrar" android:title="Borrar"
         android:orderInCategory="100" app:showAsAction="always" />
+    <item android:id="@+id/action_acerca" android:title="Acerca de"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_pagina" android:title="Acceso Pagina web"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_plataforma" android:title="Acceso Plataforma"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_sugerencias" android:title="Sugerencias"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_soporte" android:title="Llámanos"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_social" android:title="Siguenos"
+        android:orderInCategory="100" app:showAsAction="never" />
+
 </menu>
